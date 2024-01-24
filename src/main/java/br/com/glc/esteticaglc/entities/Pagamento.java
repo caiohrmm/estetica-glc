@@ -19,7 +19,10 @@ import java.util.Set;
 @Setter
 public class Pagamento extends GenericDomain {
 
+    @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
+
+    @Enumerated(EnumType.STRING)
     private StatusPagamento status;
     private Double valorPago;
     private LocalDateTime dataPagamento;
