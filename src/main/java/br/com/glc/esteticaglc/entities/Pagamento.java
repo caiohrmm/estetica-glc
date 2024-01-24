@@ -5,6 +5,8 @@ import br.com.glc.esteticaglc.entities.enums.StatusPagamento;
 import br.com.glc.esteticaglc.entities.utils.GenericDomain;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -13,7 +15,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_pagamento")
-@Data
+@Getter
+@Setter
 public class Pagamento extends GenericDomain {
 
     private FormaPagamento formaPagamento;
@@ -22,7 +25,7 @@ public class Pagamento extends GenericDomain {
     private LocalDateTime dataPagamento;
 
     @ManyToMany
-    @JoinTable(name = "pagamento_servico",
+    @JoinTable(name = "tb_pagamento_servico",
             joinColumns = @JoinColumn(name = "codigo_pagamento"),
             inverseJoinColumns = @JoinColumn(name = "codigo_servico"))
     private Set<Servico> servicos = new HashSet<>();
