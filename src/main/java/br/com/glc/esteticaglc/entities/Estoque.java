@@ -1,10 +1,7 @@
 package br.com.glc.esteticaglc.entities;
 
 import br.com.glc.esteticaglc.entities.utils.GenericDomain;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,5 +22,9 @@ public class Estoque extends GenericDomain {
 
     @OneToMany(mappedBy = "estoque")
     private List<Produto> listaProduto = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "codigo_usuario")
+    private Usuario usuario;
 
 }

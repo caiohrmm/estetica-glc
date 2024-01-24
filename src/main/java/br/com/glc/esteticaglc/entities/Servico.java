@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,13 +21,16 @@ public class Servico extends GenericDomain {
     private LocalDateTime data;
 
     @ManyToOne
+    @JoinColumn(name = "codigo_cliente")
     private Cliente cliente;
 
     @ManyToOne
+    @JoinColumn(name = "codigo_usuario")
     private Usuario usuario;
 
     @ManyToMany
-    @JoinTable(name = "produto_servico", joinColumns = @JoinColumn(name = "idServico"), inverseJoinColumns = @JoinColumn(name = "idProduto"))
-    private List<Produto> listaProdutos;
+    @JoinTable(name = "tp_produto_servico", joinColumns = @JoinColumn(name = "codigo_servico"), inverseJoinColumns = @JoinColumn(name = "codigo_produto"))
+    private List<Produto> produtos = new ArrayList<>();
+
 
 }

@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,9 +24,9 @@ public class Produto extends GenericDomain {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "idEstoque")
+    @JoinColumn(name = "codigo_estoque")
     private Estoque estoque;
 
-    @ManyToMany
-    private List<Servico> listaServicos;
+    @ManyToMany(mappedBy = "produtos")
+    private Set<Servico> servicos = new HashSet<>();
 }

@@ -2,12 +2,13 @@ package br.com.glc.esteticaglc.entities;
 
 import br.com.glc.esteticaglc.entities.enums.TipoUsuario;
 import br.com.glc.esteticaglc.entities.utils.GenericDomain;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,4 +23,9 @@ public class Usuario extends GenericDomain {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
+    @OneToMany(mappedBy = "usuario")
+    private Set<Estoque> estoques = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<Servico> servicos = new HashSet<>();
 }
