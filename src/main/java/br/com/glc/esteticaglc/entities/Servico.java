@@ -1,5 +1,6 @@
 package br.com.glc.esteticaglc.entities;
 
+import br.com.glc.esteticaglc.entities.enums.StatusPagamento;
 import br.com.glc.esteticaglc.entities.utils.GenericDomain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -20,7 +21,7 @@ public class Servico extends GenericDomain {
 
     private String descricao;
     private Double valorTotal;
-    private Boolean pago;
+    private StatusPagamento statusPagamento;
     private LocalDateTime data;
 
     @ManyToOne
