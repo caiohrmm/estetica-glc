@@ -1,13 +1,16 @@
 package br.com.glc.esteticaglc.entities;
 
 import br.com.glc.esteticaglc.entities.utils.GenericDomain;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,16 +24,12 @@ public class Servico extends GenericDomain {
     private LocalDateTime data;
 
     @ManyToOne
-    @JoinColumn(name = "codigo_cliente")
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "codigo_usuario")
     private Usuario usuario;
 
-    @ManyToMany
-    @JoinTable(name = "tp_produto_servico", joinColumns = @JoinColumn(name = "codigo_servico"), inverseJoinColumns = @JoinColumn(name = "codigo_produto"))
-    private List<Produto> produtos = new ArrayList<>();
-
+    @ManyToMany(mappedBy = "servicos")
+    private Set<Pagamento> pagamentos = new HashSet<>();
 
 }
