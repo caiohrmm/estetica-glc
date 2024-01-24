@@ -21,7 +21,7 @@ public class Estoque extends GenericDomain {
     private LocalDateTime dataCompra;
 
     @OneToMany(mappedBy = "estoque")
-    private List<Produto> listaProduto = new ArrayList<>();
+    private List<Produto> produtos = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "codigo_usuario")
