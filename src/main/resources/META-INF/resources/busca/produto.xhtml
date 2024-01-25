@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+
+    <h:head>
+        <title>SoftwareEstetica - Buscar Produto</title>
+
+        <!-- Escala em dispositivos moveis -->
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+        <!-- Import Javascript do primefaces Locale Brasil -->
+        <h:outputScript name="primefaces/locales/locale-pt.js"/>
+
+        <!-- Import Estilo Padrão CSS -->
+        <h:outputStylesheet name="/rsc/css/estilo.css"/>
+    </h:head>
+
+    <h:body>
+        <h:form id="formPrincipal">
+            <!--Incluir menu-->
+            <ui:include src="/rsc/templates/menu.xhtml"/>
+
+            <!-- Inicio do Panel de Titulo da Pagina + Messages -->
+            <p:panel>
+                <h2>Buscar Produto</h2>
+                <p:messages id="messages" closable="true"/>
+            </p:panel>
+            <!-- Fim do Panel de Titulo da Pagina + Messages -->
+
+            <!-- Inicio do Panel com Botoes de Salvar, Buscar -->
+            <p:panel>
+                <h:panelGrid style="width: 100%" columns="5">
+                    <p:row>
+                        <p:button value="Novo" icon="pi pi-plus-circle"
+                                  outcome="/cadastro/produto.xhtml"
+                                  styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+
+                        <i class="pi pi-ellipsis-v mr-2"/>
+
+                        <p:commandButton value="Buscar" icon="pi pi-search"
+                                         actionListener="#{beanBuscaProduto.buscar()}"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                         update="messages gridPrincipal"/>
+                    </p:row>
+                </h:panelGrid>
+            </p:panel>
+            <!-- Fim do Panel com Botoes de Salvar, Buscar -->
+
+            <!-- Inicio do Grid Principal -->
+            <p:panel>
+                <p:panelGrid id="gridPrincipal" style="width: 100%" layout="tabular" columns="0">
+                    <p:row style="text-align: center">
+                        <p:column style="width: 50%">
+                            <p:outputLabel for="nome" value="Nome:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nome" value="#{beanBuscaProduto.produto.nome}"
+                                         required="true"
+                                         requiredMessage="Nome é obrigatório."
+                                         maxlength="150"
+                                         style="width: 70%"/>
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+            </p:panel>
+            <!-- Fim do Grid Principal -->
+
+            <!-- Inicio do panel com a dataTable -->
+            <p:panel>
+                <p:dataTable id="dataTable" value="#{beanBuscaProduto.produtoList}"
+                             var="produto" showGridlines="true"
+                             paginator="true" rows="5"
+                             reflow="true">
+
+                    <p:column headerText="Código" style="text-align: center;">
+                        #{produto.codigo}
+                    </p:column>
+
+                    <p:column headerText="Descrição" style="text-align: center;">
+                        <p:outputLabel value="#{produto.descricao}"
+                                       style="text-transform: uppercase"/>
+                    </p:column>
+
+                    <p:column headerText="Cadastrado Por:" style="text-align: center;">
+                        <p:outputLabel value="#{produto.usuario.nome}"
+                                       style="text-transform: uppercase"/>
+                    </p:column>
+
+                    <p:column headerText="Editar/Excluir" style="text-align: center;">
+                        <!-- Inicio código para botão Editar -->
+                        <p:commandButton icon="pi pi-pencil"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                         oncomplete="PF('modal').show()"
+                                         update="formModal"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{produto}"
+                                                         target="#{beanBuscaProduto.produto}"/>
+                        </p:commandButton>
+                        <!-- Fim código para botão Editar -->
+
+                        <p:graphicImage library="imgs" name="ellipsis-v-icon.png"
+                                        style="margin-left: 5px;width: 3.5px;"/>
+
+                        <!-- Inicio código para botão delete -->
+                        <p:commandButton action="#{beanBuscaProduto.delete()}"
+                                         update="dataTable :formModal:growlMessage"
+                                         icon="pi pi-trash"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                         style="margin-left: 5px">
+                            <p:confirm header="Confirmação" message="Deseja remover este registro?"
+                                       icon="pi pi-info-circle"/>
+                            <f:setPropertyActionListener target="#{beanBuscaProduto.produto}"
+                                                         value="#{produto}"/>
+                        </p:commandButton>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
+                                         width="350">
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                             process="@this"/>
+                        </p:confirmDialog>
+                        <!-- Fim código para botão delete -->
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <!-- Inicio do panel com a dataTable -->
+        </h:form>
+
+        <!-- Inicio do Modal de Edição -->
+        <p:dialog modal="true"
+                  header="Editar Dados" height="80%" width="90%" widgetVar="modal"
+                  maximizable="true"
+                  draggable="false"
+                  responsive="true"
+                  position="center">
+            <h:form id="formModal">
+
+                <p:growl id="growlMessage" showDetail="true"/>
+                <p:panelGrid style="width: 100%" layout="tabular" columns="0">
+                    <p:row style="text-align: center">
+                        <p:column style="width: 50%">
+                            <p:outputLabel for="nomeModal" value="Nome:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nomeModal" value="#{beanBuscaProduto.produto.nome}"
+                                         required="true"
+                                         requiredMessage="Nome é obrigatório."
+                                         maxlength="150"
+                                         style="width: 70%"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row style="text-align: center">
+                        <p:column style="width: 50%">
+                            <p:outputLabel for="descricaoModal" value="Descrição:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="descricaoModal" value="#{beanBuscaProduto.produto.descricao}"
+                                         maxlength="150"
+                                         style="width: 70%"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row style="text-align: center">
+                        <p:column style="width: 50%">
+                            <p:outputLabel for="precoUnitarioModal" value="Preço Unitário:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputNumber id="precoUnitarioModal" value="#{beanBuscaProduto.produto.precoUnitario}"
+                                           required="true"
+                                           requiredMessage="Preço Unitário é obrigatório."
+                                           maxlength="150"
+                                           placeholder="R$"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+
+                <div style="display: flex; justify-content: center">
+                    <p:panelGrid>
+                        <p:commandButton value="Salvar" icon="pi pi-save"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                         action="#{beanBuscaProduto.editar()}"
+                                         process="@form" update="@form :formPrincipal:dataTable growlMessage"/>
+                    </p:panelGrid>
+                </div>
+            </h:form>
+        </p:dialog>
+        <!-- Fim do Modal de Edição -->
+    </h:body>
+</f:view>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+
+    <h:head>
+        <title>SoftwareEstetica - Home</title>
+
+        <!-- Escala em dispositivos moveis -->
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+        <!-- Import Javascript do primefaces Locale Brasil -->
+        <h:outputScript name="primefaces/locales/locale-pt.js"/>
+
+        <!-- Import Estilo Padrão CSS -->
+        <h:outputStylesheet name="/rsc/css/estilo.css"/>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <!--Incluir menu-->
+            <ui:include src="/rsc/templates/menu.xhtml"/>
+
+            <!-- Inicio do panel de Boas Vindas -->
+            <p:panel>
+                <p:panelGrid style="width: 100%" layout="tabular" columns="0">
+                    <p:row>
+                        <h2>Olá, seja bem-vindo!</h2>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+            <!-- Fim do panel de Boas Vindas -->
+
+            <!-- Inicio do panel de Cards -->
+            <p:panel style="margin-top: 5px">
+                <p:panelGrid style="width: 100%" layout="tabular" columns="0">
+                    <p:row>
+                        <p:row style="text-align: center">
+                            <p:card style="width: 13rem; margin-bottom: 2em; text-align: center">
+                                <f:facet name="title">
+                                    Novo Produto
+                                </f:facet>
+
+                                <p:linkButton outcome="/cadastro/produto.xhtml" icon="pi pi-tag"
+                                              styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                              style="margin-right:20px">
+                                </p:linkButton>
+
+                            </p:card>
+                        </p:row>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+            <!-- Fim do panel de Cards -->
+
+        </h:form>
+    </h:body>
+</f:view>
+</html>
