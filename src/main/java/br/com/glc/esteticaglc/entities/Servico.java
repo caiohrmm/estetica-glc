@@ -33,4 +33,7 @@ public class Servico extends GenericDomain {
     @ManyToMany(mappedBy = "servicos")
     private Set<Pagamento> pagamentos = new HashSet<>();
 
+    @ManyToMany(mappedBy = "servicos")
+    private Set<Produto> produtos;
+
 }

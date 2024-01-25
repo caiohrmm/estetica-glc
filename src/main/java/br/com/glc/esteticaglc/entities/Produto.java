@@ -27,6 +27,9 @@ public class Produto extends GenericDomain {
     @JoinColumn(name = "codigo_estoque")
     private Estoque estoque;
 
-    @ManyToMany(mappedBy = "produtos")
+    @ManyToMany()
+    @JoinTable(name = "tb_produto_servico", joinColumns = {@JoinColumn(name = "produto_codigo")},
+            inverseJoinColumns = {@JoinColumn(name = "servico_codigo")})
     private Set<Servico> servicos = new HashSet<>();
+
 }
