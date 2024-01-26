@@ -39,20 +39,30 @@
             <!-- Inicio do panel de Cards -->
             <p:panel style="margin-top: 5px">
                 <p:panelGrid style="width: 100%" layout="tabular" columns="0">
-                    <p:row>
-                        <p:row style="text-align: center">
-                            <p:card style="width: 13rem; margin-bottom: 2em; text-align: center">
-                                <f:facet name="title">
-                                    Novo Produto
-                                </f:facet>
+                    <p:row style="text-align: center">
+                        <p:card style="width: 13rem; text-align: center; float: left">
+                            <f:facet name="title">
+                                Novo Produto
+                            </f:facet>
 
-                                <p:linkButton outcome="/cadastro/produto.xhtml" icon="pi pi-tag"
-                                              styleClass="ui-button-raised ui-button-secondary ui-button-flat"
-                                              style="margin-right:20px">
-                                </p:linkButton>
+                            <p:linkButton outcome="/cadastro/produto.xhtml" icon="pi pi-tag"
+                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                          style="margin-right:20px">
+                            </p:linkButton>
 
-                            </p:card>
-                        </p:row>
+                        </p:card>
+
+                        <p:card style="width: 13rem; text-align: center; float: left; margin-left: 10px">
+                            <f:facet name="title">
+                                Novo Cliente
+                            </f:facet>
+
+                            <p:linkButton outcome="/cadastro/cliente.xhtml" icon="pi pi-user"
+                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                          style="margin-right:20px">
+                            </p:linkButton>
+
+                        </p:card>
                     </p:row>
                 </p:panelGrid>
             </p:panel>
