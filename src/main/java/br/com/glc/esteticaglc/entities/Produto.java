@@ -5,10 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -19,17 +17,17 @@ public class Produto extends GenericDomain {
     private String descricao;
     private Double precoUnitario;
     private Integer quantidadeMinima;
+    private Double precoCusto;
+    private Integer quantidadeEstoque;
+    private LocalDate dataAlteracao;
+    private LocalDate dataCriacao;
 
     @ManyToOne
+    @JoinColumn(name = "codigo_usuario")
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "codigo_estoque")
-    private Estoque estoque;
-
-    @ManyToMany()
-    @JoinTable(name = "tb_produto_servico", joinColumns = {@JoinColumn(name = "produto_codigo")},
-            inverseJoinColumns = {@JoinColumn(name = "servico_codigo")})
-    private Set<Servico> servicos = new HashSet<>();
-
+    @OneToMany(mappedBy = "produto")
+    private HashSet<ProdutoServico> produtoServicos = new HashSet<>();
+    @OneToMany(mappedBy = "produto")
+    private HashSet<HistoricoProduto> historicoProdutos = new HashSet<>();
 }

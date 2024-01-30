@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -24,8 +23,8 @@ public class Usuario extends GenericDomain {
     private TipoUsuario tipoUsuario;
 
     @OneToMany(mappedBy = "usuario")
-    private Set<Estoque> estoques = new HashSet<>();
+    private Set<Servico> servicos = new HashSet<>();
 
     @OneToMany(mappedBy = "usuario")
-    private Set<Servico> servicos = new HashSet<>();
+    private Set<Produto> produtos = new HashSet<>();
 }
