@@ -38,7 +38,7 @@
                 <h:panelGrid style="width: 100%" columns="5">
                     <p:row>
                         <p:commandButton value="Salvar" icon="pi pi-check-circle"
-                                         actionListener="#{beanCadastroCliente.salvar()}"
+                                         actionListener="#{novoClienteController.salvar()}"
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"
                                          update="messages gridPrincipal"/>
 
@@ -60,7 +60,7 @@
                             <p:outputLabel for="nome" value="Nome:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nome" value="#{beanCadastroCliente.cliente.nome}"
+                            <p:inputText id="nome" value="#{novoClienteController.cliente.nome}"
                                          required="true"
                                          requiredMessage="Nome é obrigatório."
                                          maxlength="150"
@@ -74,7 +74,7 @@
                         </p:column>
                         <p:column>
                             <p:inputMask id="cpf" mask="999.999.999-99"
-                                         value="#{beanCadastroCliente.cliente.cpf}"
+                                         value="#{novoClienteController.cliente.cpf}"
                                          required="true"
                                          requiredMessage="CPF é obrigatório."
                                          style="width: 70%"/>
@@ -87,7 +87,7 @@
                         </p:column>
                         <p:column>
                             <p:inputMask id="rg" mask="99.999.999-9"
-                                         value="#{beanCadastroCliente.cliente.rg}"
+                                         value="#{novoClienteController.cliente.rg}"
                                          style="width: 70%"/>
                         </p:column>
                     </p:row>
@@ -98,7 +98,7 @@
                         </p:column>
                         <p:column>
                             <p:inputMask id="telefone" mask="(99) 9 9999-9999"
-                                         value="#{beanCadastroCliente.cliente.telefone}"
+                                         value="#{novoClienteController.cliente.telefone}"
                                          required="true"
                                          requiredMessage="Telefone é obrigatório."
                                          style="width: 70%"/>
@@ -113,7 +113,7 @@
                             <p:outputLabel for="rua" value="Rua:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="rua" value="#{beanCadastroCliente.cliente.endereco.rua}"
+                            <p:inputText id="rua" value="#{novoClienteController.cliente.endereco.rua}"
                                          maxlength="100"
                                          style="width: 70%"/>
                         </p:column>
@@ -124,7 +124,7 @@
                             <p:outputLabel for="bairro" value="Bairro:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="bairro" value="#{beanCadastroCliente.cliente.endereco.bairro}"
+                            <p:inputText id="bairro" value="#{novoClienteController.cliente.endereco.bairro}"
                                          maxlength="50"
                                          style="width: 70%"/>
                         </p:column>
@@ -135,7 +135,7 @@
                             <p:outputLabel for="numero" value="Número:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="numero" value="#{beanCadastroCliente.cliente.endereco.numero}"
+                            <p:inputText id="numero" value="#{novoClienteController.cliente.endereco.numero}"
                                          maxlength="30"
                                          style="width: 70%"/>
                         </p:column>
@@ -146,7 +146,7 @@
                             <p:outputLabel for="cidade" value="Cidade:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="cidade" value="#{beanCadastroCliente.cliente.endereco.cidade}"
+                            <p:inputText id="cidade" value="#{novoClienteController.cliente.endereco.cidade}"
                                          maxlength="100"
                                          style="width: 70%"/>
                         </p:column>
