@@ -2,10 +2,7 @@ package br.com.glc.esteticaglc.entities;
 
 import br.com.glc.esteticaglc.entities.enums.StatusPagamento;
 import br.com.glc.esteticaglc.entities.utils.GenericDomain;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,5 +29,9 @@ public class Servico extends GenericDomain {
 
     @ManyToMany(mappedBy = "servicos")
     private Set<Pagamento> pagamentos = new HashSet<>();
+
+    @OneToMany(mappedBy = "servico")
+    private Set<ProdutoServico> produtoServicos = new HashSet<>();
+
 
 }
