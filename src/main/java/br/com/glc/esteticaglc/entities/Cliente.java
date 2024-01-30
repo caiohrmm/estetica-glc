@@ -1,10 +1,7 @@
 package br.com.glc.esteticaglc.entities;
 
 import br.com.glc.esteticaglc.entities.utils.GenericDomain;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +24,9 @@ public class Cliente extends GenericDomain {
 
     @OneToMany(mappedBy = "cliente")
     private Set<Servico> servicos = new HashSet<>();
+
+    @ManyToOne
+    private Usuario usuario;
 
     public String enderecoCompleto() {
         String enderecoCompleto = null;
