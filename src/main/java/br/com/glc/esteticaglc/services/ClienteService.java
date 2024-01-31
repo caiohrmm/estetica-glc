@@ -2,7 +2,8 @@ package br.com.glc.esteticaglc.services;
 
 import br.com.glc.esteticaglc.entities.Cliente;
 import br.com.glc.esteticaglc.repositories.ClienteRepository;
-import org.omnifaces.util.Messages;
+import br.com.glc.esteticaglc.utils.GrowlView;
+import br.com.glc.esteticaglc.utils.enums.MessageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,25 +21,25 @@ public class ClienteService {
 
     public void salvar(Cliente cliente) {
         if (clienteRepository.clienteExistente(cliente.getCpf()) != null) {
-            Messages.addFlashGlobalError("CPF já cadastrado.");
+            GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "CPF já cadastrado.");
             clienteRepository.saveAndFlush(cliente);
         } else {
             clienteRepository.save(cliente);
-            Messages.addFlashGlobalInfo("Registro salvo com sucesso.");
+            GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_SALVO_SUCESSO.getMsg());
         }
     }
 
     public void editar(Cliente cliente) {
         clienteRepository.saveAndFlush(cliente);
 
-        Messages.addFlashGlobalInfo("Registro salvo com sucesso.");
+        GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_SALVO_SUCESSO.getMsg());
     }
 
     public void delete(Cliente cliente) {
         Cliente clienteRecuperado = clienteRepository.findById(cliente.getCodigo()).get();
 
         clienteRepository.delete(clienteRecuperado);
-        Messages.addFlashGlobalInfo("Registro deletado com sucesso.");
+        GrowlView.showWarn(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_EXCLUIDO_SUCESSO.getMsg());
     }
 
 }
