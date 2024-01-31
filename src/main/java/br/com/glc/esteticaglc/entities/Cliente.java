@@ -1,10 +1,7 @@
 package br.com.glc.esteticaglc.entities;
 
 import br.com.glc.esteticaglc.entities.utils.GenericDomain;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,23 +25,28 @@ public class Cliente extends GenericDomain {
     @OneToMany(mappedBy = "cliente")
     private Set<Servico> servicos = new HashSet<>();
 
+    @ManyToOne
+    private Usuario usuario;
+
     public String enderecoCompleto() {
         String enderecoCompleto = null;
 
-        if (endereco.getRua() != null && !endereco.getRua().isBlank()) {
-            enderecoCompleto = endereco.getRua();
-        }
+        if (endereco != null) {
+            if (endereco.getRua() != null && !endereco.getRua().isBlank()) {
+                enderecoCompleto = endereco.getRua();
+            }
 
-        if (endereco.getBairro() != null && !endereco.getBairro().isBlank()) {
-            enderecoCompleto = enderecoCompleto + ", " + endereco.getBairro();
-        }
+            if (endereco.getBairro() != null && !endereco.getBairro().isBlank()) {
+                enderecoCompleto = enderecoCompleto + ", " + endereco.getBairro();
+            }
 
-        if (endereco.getNumero() != null && !endereco.getNumero().isBlank()) {
-            enderecoCompleto = enderecoCompleto + ", " + endereco.getNumero();
-        }
+            if (endereco.getNumero() != null && !endereco.getNumero().isBlank()) {
+                enderecoCompleto = enderecoCompleto + ", " + endereco.getNumero();
+            }
 
-        if (endereco.getCidade() != null && !endereco.getCidade().isBlank()) {
-            enderecoCompleto = enderecoCompleto + ", " + endereco.getCidade();
+            if (endereco.getCidade() != null && !endereco.getCidade().isBlank()) {
+                enderecoCompleto = enderecoCompleto + ", " + endereco.getCidade();
+            }
         }
 
         return enderecoCompleto;
