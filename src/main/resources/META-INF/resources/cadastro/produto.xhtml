@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+
+    <h:head>
+        <title>EsteticaGlc - Novo Produto</title>
+
+        <!-- Escala em dispositivos moveis -->
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+        <!-- Import Javascript do primefaces Locale Brasil -->
+        <h:outputScript name="primefaces/locales/locale-pt.js"/>
+
+        <!-- Import Estilo Padrão CSS -->
+        <h:outputStylesheet name="/rsc/css/estilo.css"/>
+    </h:head>
+
+    <h:body>
+
+        <div class="card crud-demo">
+            <h:form id="form">
+                <!--Incluir menu-->
+                <ui:include src="/rsc/templates/menu.xhtml"/>
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Novo" icon="pi pi-plus-circle"
+                                         actionListener="#{beanCadastroProduto.init()}"
+                                         update=":novoProduto:novo-produto-content"
+                                         oncomplete="PF('novo-produto').show()"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                         style="margin-right: .5rem">
+                            <p:resetInput target=":novoProduto:novo-produto-content"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-produtos" widgetVar="dtProdutos" var="produto"
+                             value="#{beanCadastroProduto.produtoList}"
+                             reflow="true"
+                             rowKey="#{produto.codigo}" paginator="true" rows="5" rowSelectMode="add"
+                             paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <div class="produtos-table-header">
+                            <span style="font-weight: bold">PRODUTOS</span>
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtProdutos').filter()" placeholder="Buscar"/>
+                    </span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="Código" sortBy="#{cliente.codigo}" style="text-align: center">
+                        <h:outputText value="#{produto.codigo}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{produto.nome}" filterBy="#{produto.nome}"
+                              style="text-align: center">
+                        <h:outputText value="#{produto.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Preço Unitário" style="text-align: center">
+                        <h:outputText value="#{produto.precoUnitario}" style="font-weight: 700">
+                            <f:convertNumber currencySymbol="R$" type="currency"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Preço Custo" style="text-align: center">
+                        <h:outputText value="#{produto.precoCusto}" style="font-weight: 700">
+                            <f:convertNumber currencySymbol="R$" type="currency"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Quantidade em Estoque" style="text-align: center">
+                        <p:outputLabel value="#{produto.quantidadeEstoque}"/>
+                    </p:column>
+
+                    <p:column headerText="Editar/Excluir" exportable="false" style="text-align: center">
+                        <p:commandButton icon="pi pi-pencil" update=":editarProduto:editar-cliente"
+                                         oncomplete="PF('editarProdutoDialog').show()"
+                                         styleClass="rounded-button ui-button-raised ui-button-secondary ui-button-flat"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{produto}"
+                                                         target="#{beanCadastroProduto.produto}"/>
+                            <p:resetInput target=":editarProduto:editar-cliente"/>
+                        </p:commandButton>
+
+                        <i class="pi pi-ellipsis-v mr-2"/>
+
+                        <p:commandButton icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteProductDialog').show()"
+                                         styleClass="rounded-button ui-button-raised ui-button-secondary ui-button-flat">
+                            <f:setPropertyActionListener value="#{produto}" target="#{beanCadastroProduto.produto}"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+            <!-- Inicio Form Novo Produto -->
+            <h:form id="novoProduto">
+                <p:dialog header="Novo Produto" showEffect="fade" modal="true" widgetVar="novo-produto"
+                          responsive="true" draggable="false" maximizable="false">
+                    <p:outputPanel id="novo-produto-content" class="ui-fluid">
+                        <p:outputPanel>
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="nome">Nome:</p:outputLabel>
+                                <p:inputText id="nome" value="#{beanCadastroProduto.produto.nome}"
+                                             required="true"
+                                             requiredMessage="Nome é obrigatório."/>
+                            </div>
+
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="descricao">Descrição:</p:outputLabel>
+                                <p:inputTextarea id="descricao" value="#{beanCadastroProduto.produto.descricao}"/>
+                            </div>
+
+                            <div class="formgrid grid" style="margin-top: 10px">
+                                <div class="field col">
+                                    <p:outputLabel for="precoUnitario">Preço Unitário:</p:outputLabel>
+                                    <p:inputNumber id="precoUnitario"
+                                                   value="#{beanCadastroProduto.produto.precoUnitario}"
+                                                   symbol=" R$"
+                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="quantidadeMinima">Quantidade Mínima:</p:outputLabel>
+                                    <p:spinner id="quantidadeMinima" min="0"
+                                               value="#{beanCadastroProduto.produto.quantidadeMinima}"
+                                               size="10"/>
+                                </div>
+                            </div>
+
+                            <div class="formgrid grid" style="margin-top: 10px">
+                                <div class="field col">
+                                    <p:outputLabel for="precoCusto">Preço Custo:</p:outputLabel>
+                                    <p:inputNumber id="precoCusto"
+                                                   value="#{beanCadastroProduto.produto.precoUnitario}"
+                                                   symbol=" R$"
+                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="quantidadeEstoque">Quantidade</p:outputLabel>
+                                    <p:spinner id="quantidadeEstoque" min="0"
+                                               value="#{beanCadastroProduto.produto.quantidadeEstoque}"
+                                               size="10"/>
+                                </div>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Salvar" icon="pi pi-check"
+                                         actionListener="#{beanCadastroProduto.salvar()}"
+                                         update="novo-produto-content :form:messages :form:dt-produtos"
+                                         process="novo-produto-content @this"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('novo-produto').hide()"
+                                         class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                    </f:facet>
+                </p:dialog>
+            </h:form>
+            <!-- Fim Form Novo Produto -->
+
+            <!-- Inicio Form Editar Produto -->
+            <h:form id="editarProduto">
+                <p:dialog header="Editar Produto" showEffect="fade" modal="true" widgetVar="editarProdutoDialog"
+                          responsive="true" draggable="false">
+                    <p:outputPanel id="editar-produto" class="ui-fluid">
+                        <p:outputPanel>
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="nomeSelecionado">Nome:</p:outputLabel>
+                                <p:inputText id="nomeSelecionado" value="#{beanCadastroProduto.produto.nome}"
+                                             required="true"
+                                             requiredMessage="Nome é obrigatório."/>
+                            </div>
+
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="descricaoSelecionada">Descrição:</p:outputLabel>
+                                <p:inputTextarea id="descricaoSelecionada"
+                                                 value="#{beanCadastroProduto.produto.descricao}"/>
+                            </div>
+
+                            <div class="formgrid grid" style="margin-top: 10px">
+                                <div class="field col">
+                                    <p:outputLabel for="precoUnitarioSelecionado">Preço Unitário:</p:outputLabel>
+                                    <p:inputNumber id="precoUnitarioSelecionado"
+                                                   value="#{beanCadastroProduto.produto.precoUnitario}"
+                                                   symbol=" R$"
+                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="quantidadeMinimaSelecionada">Quantidade Mínima:</p:outputLabel>
+                                    <p:spinner id="quantidadeMinimaSelecionada" min="0"
+                                               value="#{beanCadastroProduto.produto.quantidadeMinima}"
+                                               size="10"/>
+                                </div>
+                            </div>
+
+                            <div class="formgrid grid" style="margin-top: 10px">
+                                <div class="field col">
+                                    <p:outputLabel for="precoCustoSelecionado">Preço Custo:</p:outputLabel>
+                                    <p:inputNumber id="precoCustoSelecionado"
+                                                   value="#{beanCadastroProduto.produto.precoUnitario}"
+                                                   symbol=" R$"
+                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="quantidadeEstoqueSelecionado">Quantidade</p:outputLabel>
+                                    <p:spinner id="quantidadeEstoqueSelecionado" min="0"
+                                               value="#{beanCadastroProduto.produto.quantidadeEstoque}"
+                                               size="10"/>
+                                </div>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Salvar" icon="pi pi-check"
+                                         actionListener="#{beanCadastroProduto.salvar()}"
+                                         update="editar-produto :form:messages :form:dt-produtos"
+                                         process="editar-produto @this"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('novo-produto').hide()"
+                                         class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                                 message="Remover este registro?" header="Confirmar" severity="warn">
+                    <p:commandButton value="Sim" icon="pi pi-check" actionListener="#{beanCadastroProduto.delete()}"
+                                     process="@this"
+                                     update=":form:messages :form:dt-produtos"
+                                     styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                     oncomplete="PF('deleteProductDialog').hide()"/>
+                    <p:commandButton value="Não" type="button"
+                                     styleClass="ui-button-raised ui-button-secondary ui-button-flat" icon="pi pi-times"
+                                     onclick="PF('deleteProductDialog').hide()"/>
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
+            </h:form>
+            <!-- Fim Form Editar Produto -->
+        </div>
+
+    </h:body>
+</f:view>
+</html>
