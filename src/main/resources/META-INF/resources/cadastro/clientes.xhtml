@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+
+    <h:head>
+        <title>SoftwareEstetica - Novo Cliente</title>
+
+        <!-- Escala em dispositivos moveis -->
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+        <!-- Import Javascript do primefaces Locale Brasil -->
+        <h:outputScript name="primefaces/locales/locale-pt.js"/>
+
+        <!-- Import Estilo Padrão CSS -->
+        <h:outputStylesheet name="/rsc/css/estilo.css"/>
+    </h:head>
+
+    <h:body>
+
+        <div class="card crud-demo">
+            <h:form id="form">
+                <!--Incluir menu-->
+                <ui:include src="/rsc/templates/menu.xhtml"/>
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Novo" icon="pi pi-plus" actionListener="#{clienteController.init()}"
+                                         update=":novoCliente:novo-cliente-content"
+                                         oncomplete="PF('novo-cliente').show()"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                         style="margin-right: .5rem">
+                            <p:resetInput target=":novoCliente:novo-cliente-content"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-clientes" widgetVar="dtClientes" var="cliente"
+                             value="#{clienteController.clienteList}"
+                             reflow="true"
+                             rowKey="#{cliente.codigo}" paginator="true" rows="5" rowSelectMode="add"
+                             paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <div class="clientes-table-header">
+                            <span style="font-weight: bold">CLIENTES</span>
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtClientes').filter()" placeholder="Buscar"/>
+                    </span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="Código" sortBy="#{cliente.codigo}" style="text-align: center">
+                        <h:outputText value="#{cliente.codigo}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{cliente.nome}" filterBy="#{cliente.nome}"
+                              style="text-align: center">
+                        <h:outputText value="#{cliente.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="CPF" style="text-align: center">
+                        <p:outputLabel value="#{cliente.cpf}"/>
+                    </p:column>
+
+                    <p:column headerText="RG" style="text-align: center">
+                        <p:outputLabel value="#{cliente.rg}"/>
+                    </p:column>
+
+                    <p:column headerText="Telefone" style="text-align: center">
+                        <p:outputLabel value="#{cliente.telefone}"/>
+                    </p:column>
+
+                    <p:column headerText="Endereço" style="text-align: center">
+                        <p:outputLabel value="#{cliente.enderecoCompleto()}"/>
+                    </p:column>
+
+                    <p:column headerText="Editar/Excluir" exportable="false" style="text-align: center">
+                        <p:commandButton icon="pi pi-pencil" update=":editarCliente:editar-cliente"
+                                         oncomplete="PF('editarClienteDialog').show()"
+                                         styleClass="rounded-button ui-button-raised ui-button-secondary ui-button-flat"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{cliente}"
+                                                         target="#{clienteController.cliente}"/>
+                            <p:resetInput target=":editarCliente:editar-cliente"/>
+                        </p:commandButton>
+
+                        <i class="pi pi-ellipsis-v mr-2"/>
+
+                        <p:commandButton icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteProductDialog').show()"
+                                         styleClass="rounded-button ui-button-raised ui-button-secondary ui-button-flat">
+                            <f:setPropertyActionListener value="#{cliente}" target="#{clienteController.cliente}"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+            <!-- Inicio Form Novo Cliente -->
+            <h:form id="novoCliente">
+                <p:dialog header="Detalhes Cliente" showEffect="fade" modal="true" widgetVar="novo-cliente"
+                          responsive="true" draggable="false">
+                    <p:outputPanel id="novo-cliente-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty clienteController.cliente}">
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="nome">Nome:</p:outputLabel>
+                                <p:inputText id="nome" value="#{clienteController.cliente.nome}"
+                                             required="true"
+                                             requiredMessage="Nome é obrigatório."/>
+                            </div>
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="cpf">CPF:</p:outputLabel>
+                                <p:inputMask id="cpf" mask="999.999.999-99"
+                                             value="#{clienteController.cliente.cpf}"
+                                             required="true"
+                                             requiredMessage="CPF é obrigatório."/>
+                            </div>
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="rg">RG:</p:outputLabel>
+                                <p:inputMask id="rg" mask="99.999.999-9"
+                                             value="#{clienteController.cliente.rg}"/>
+                            </div>
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="telefone">Telefone:</p:outputLabel>
+                                <p:inputMask id="telefone" mask="(99) 9 9999-9999"
+                                             value="#{clienteController.cliente.telefone}"
+                                             required="true"
+                                             requiredMessage="Telefone é obrigatório."/>
+                            </div>
+
+                            <h3>Endereço</h3>
+                            <div class="formgrid grid">
+                                <div class="field col">
+                                    <p:outputLabel for="rua">Rua</p:outputLabel>
+                                    <p:inputText id="rua" value="#{clienteController.cliente.endereco.rua}"
+                                                 maxlength="100"/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="bairro">Bairro:</p:outputLabel>
+                                    <p:inputText id="bairro"
+                                                 value="#{clienteController.cliente.endereco.bairro}"
+                                                 maxlength="50"/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="numero">Número:</p:outputLabel>
+                                    <p:inputText id="numero"
+                                                 value="#{clienteController.cliente.endereco.numero}"
+                                                 maxlength="10"/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="cidade">Cidade:</p:outputLabel>
+                                    <p:inputText id="cidade"
+                                                 value="#{clienteController.cliente.endereco.cidade}"
+                                                 maxlength="10"/>
+                                </div>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Salvar" icon="pi pi-check"
+                                         actionListener="#{clienteController.salvar()}"
+                                         update="novo-cliente-content :form:messages :form:dt-clientes"
+                                         process="novo-cliente-content @this"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('novo-cliente').hide()"
+                                         class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                    </f:facet>
+                </p:dialog>
+            </h:form>
+            <!-- Fim Form Novo Cliente -->
+
+            <!-- Inicio Form Editar Cliente -->
+            <h:form id="editarCliente">
+                <p:dialog header="Editar Cliente" showEffect="fade" modal="true" widgetVar="editarClienteDialog"
+                          responsive="true" draggable="false">
+                    <p:outputPanel id="editar-cliente" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty clienteController.cliente}">
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="nomeSelecionado">Nome:</p:outputLabel>
+                                <p:inputText id="nomeSelecionado" value="#{clienteController.cliente.nome}"
+                                             required="true"/>
+                            </div>
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="cpfSelecionado">CPF:</p:outputLabel>
+                                <p:inputMask id="cpfSelecionado" mask="999.999.999-99"
+                                             value="#{clienteController.cliente.cpf}"
+                                             required="true"/>
+                            </div>
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="rgSelecionado">RG:</p:outputLabel>
+                                <p:inputMask id="rgSelecionado" mask="99.999.999-9"
+                                             value="#{clienteController.cliente.rg}"
+                                             required="true"/>
+                            </div>
+                            <div class="field" style="margin-top: 10px">
+                                <p:outputLabel for="telefoneSelecionado">Telefone:</p:outputLabel>
+                                <p:inputMask id="telefoneSelecionado" mask="(99) 9 9999-9999"
+                                             value="#{clienteController.cliente.telefone}"
+                                             required="true"/>
+                            </div>
+
+                            <h3>Endereço</h3>
+                            <div class="formgrid grid">
+                                <div class="field col">
+                                    <p:outputLabel for="ruaSelecionada">Rua</p:outputLabel>
+                                    <p:inputText id="ruaSelecionada" value="#{clienteController.cliente.endereco.rua}"
+                                                 maxlength="100"/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="bairroSelecionada">Bairro:</p:outputLabel>
+                                    <p:inputText id="bairroSelecionada"
+                                                 value="#{clienteController.cliente.endereco.bairro}"
+                                                 maxlength="50"/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="numeroSelecionada">Número:</p:outputLabel>
+                                    <p:inputText id="numeroSelecionada"
+                                                 value="#{clienteController.cliente.endereco.numero}"
+                                                 maxlength="10"/>
+                                </div>
+
+                                <div class="field col">
+                                    <p:outputLabel for="cidadeSelecionada">Cidade:</p:outputLabel>
+                                    <p:inputText id="cidadeSelecionada"
+                                                 value="#{clienteController.cliente.endereco.cidade}"
+                                                 maxlength="10"/>
+                                </div>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Salvar" icon="pi pi-check"
+                                         actionListener="#{clienteController.editar()}"
+                                         update="editar-cliente :form:messages :form:dt-clientes"
+                                         process="editar-cliente @this"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editarClienteDialog').hide()"
+                                         class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
+                                 message="Remover este registro?" header="Confirmar" severity="warn">
+                    <p:commandButton value="Sim" icon="pi pi-check" actionListener="#{clienteController.delete()}"
+                                     process="@this"
+                                     update=":form:messages :form:dt-clientes"
+                                     styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                     oncomplete="PF('deleteProductDialog').hide()"/>
+                    <p:commandButton value="Não" type="button"
+                                     styleClass="ui-button-raised ui-button-secondary ui-button-flat" icon="pi pi-times"
+                                     onclick="PF('deleteProductDialog').hide()"/>
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
+            </h:form>
+            <!-- Fim Form Editar Cliente -->
+        </div>
+
+    </h:body>
+</f:view>
+</html>
