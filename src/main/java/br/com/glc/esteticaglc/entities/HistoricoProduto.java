@@ -18,8 +18,17 @@ public class HistoricoProduto extends GenericDomain {
     private Double valorUnitarioAnterior;
     private LocalDate dataAlteracao;
     private Integer quantidadeAnterior;
+    private String nomeAnterior;
+    private Double precoDeCustoAnterior;
+
+    public HistoricoProduto() {
+    }
+
+
 
     @ManyToOne
     @JoinColumn(name = "codigo_produto")
     private Produto produto;
+
+
 }
