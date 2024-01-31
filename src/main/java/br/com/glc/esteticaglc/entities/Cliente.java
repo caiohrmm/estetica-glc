@@ -31,20 +31,22 @@ public class Cliente extends GenericDomain {
     public String enderecoCompleto() {
         String enderecoCompleto = null;
 
-        if (endereco.getRua() != null && !endereco.getRua().isBlank()) {
-            enderecoCompleto = endereco.getRua();
-        }
+        if (endereco != null) {
+            if (endereco.getRua() != null && !endereco.getRua().isBlank()) {
+                enderecoCompleto = endereco.getRua();
+            }
 
-        if (endereco.getBairro() != null && !endereco.getBairro().isBlank()) {
-            enderecoCompleto = enderecoCompleto + ", " + endereco.getBairro();
-        }
+            if (endereco.getBairro() != null && !endereco.getBairro().isBlank()) {
+                enderecoCompleto = enderecoCompleto + ", " + endereco.getBairro();
+            }
 
-        if (endereco.getNumero() != null && !endereco.getNumero().isBlank()) {
-            enderecoCompleto = enderecoCompleto + ", " + endereco.getNumero();
-        }
+            if (endereco.getNumero() != null && !endereco.getNumero().isBlank()) {
+                enderecoCompleto = enderecoCompleto + ", " + endereco.getNumero();
+            }
 
-        if (endereco.getCidade() != null && !endereco.getCidade().isBlank()) {
-            enderecoCompleto = enderecoCompleto + ", " + endereco.getCidade();
+            if (endereco.getCidade() != null && !endereco.getCidade().isBlank()) {
+                enderecoCompleto = enderecoCompleto + ", " + endereco.getCidade();
+            }
         }
 
         return enderecoCompleto;
