@@ -27,7 +27,7 @@ public class Produto extends GenericDomain {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "produto")
-    private HashSet<ProdutoServico> produtoServicos = new HashSet<>();
+    private HashSet<ProdutoServico> produtoServicos;
     @OneToMany(mappedBy = "produto")
-    private HashSet<HistoricoProduto> historicoProdutos = new HashSet<>();
+    private HashSet<HistoricoProduto> historicoProdutos;
 }

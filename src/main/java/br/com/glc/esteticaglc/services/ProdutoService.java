@@ -22,6 +22,7 @@ public class ProdutoService {
     @Autowired
     private UsuarioService usuarioService;
 
+
     public void excluir(Long codigoProduto) {
         Produto produto = produtoRepository.findById(codigoProduto).get();
         produtoRepository.delete(produto);
