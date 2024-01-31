@@ -9,7 +9,7 @@
 <f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
 
     <h:head>
-        <title>SoftwareEstetica - Buscar Produto</title>
+        <title>SoftwareEstetica - Buscar Cliente</title>
 
         <!-- Escala em dispositivos moveis -->
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
@@ -28,7 +28,7 @@
 
             <!-- Inicio do Panel de Titulo da Pagina + Messages -->
             <p:panel>
-                <h2>Buscar Produto</h2>
+                <h2>Buscar Cliente</h2>
                 <p:messages id="messages" closable="true"/>
             </p:panel>
             <!-- Fim do Panel de Titulo da Pagina + Messages -->
@@ -38,13 +38,13 @@
                 <h:panelGrid style="width: 100%" columns="5">
                     <p:row>
                         <p:button value="Novo" icon="pi pi-plus-circle"
-                                  outcome="/cadastro/produto.xhtml"
+                                  outcome="/cadastro/cliente.xhtml"
                                   styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
 
                         <i class="pi pi-ellipsis-v mr-2"/>
 
                         <p:commandButton value="Buscar" icon="pi pi-search"
-                                         actionListener="#{beanBuscaProduto.buscar()}"
+                                         actionListener="#{beanBuscaCliente.buscar()}"
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"
                                          update="messages gridPrincipal"/>
                     </p:row>
@@ -60,36 +60,59 @@
                             <p:outputLabel for="nome" value="Nome:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nome" value="#{beanBuscaProduto.produto.nome}"
-                                         required="true"
-                                         requiredMessage="Nome é obrigatório."
+                            <p:inputText id="nome" value="#{beanBuscaCliente.cliente.nome}"
                                          maxlength="150"
                                          style="width: 70%"/>
                         </p:column>
                     </p:row>
 
+                    <p:row style="text-align: center">
+                        <p:column style="width: 50%">
+                            <p:outputLabel for="cpf" value="CPF:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputMask id="cpf" mask="999.999.999-99"
+                                         value="#{beanBuscaCliente.cliente.cpf}"
+                                         style="width: 70%"/>
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
             </p:panel>
             <!-- Fim do Grid Principal -->
 
             <!-- Inicio do panel com a dataTable -->
             <p:panel>
-                <p:dataTable id="dataTable" value="#{beanBuscaProduto.produtoList}"
-                             var="produto" showGridlines="true"
+                <p:dataTable id="dataTable" value="#{beanBuscaCliente.clienteList}"
+                             var="cliente" showGridlines="true"
                              paginator="true" rows="5"
                              reflow="true">
 
                     <p:column headerText="Código" style="text-align: center;">
-                        #{produto.codigo}
+                        #{cliente.codigo}
                     </p:column>
 
-                    <p:column headerText="Descrição" style="text-align: center;">
-                        <p:outputLabel value="#{produto.descricao}"
+                    <p:column headerText="Nome" style="text-align: center;">
+                        <p:outputLabel value="#{cliente.nome}"
                                        style="text-transform: uppercase"/>
                     </p:column>
 
-                    <p:column headerText="Cadastrado Por" style="text-align: center;">
-                        <p:outputLabel value="#{produto.usuario.nome}"
+                    <p:column headerText="CPF" style="text-align: center;">
+                        <p:outputLabel value="#{cliente.cpf}"
+                                       style="text-transform: uppercase"/>
+                    </p:column>
+
+                    <p:column headerText="RG" style="text-align: center;">
+                        <p:outputLabel value="#{cliente.rg}"
+                                       style="text-transform: uppercase"/>
+                    </p:column>
+
+                    <p:column headerText="Telefone" style="text-align: center;">
+                        <p:outputLabel value="#{cliente.telefone}"
+                                       style="text-transform: uppercase"/>
+                    </p:column>
+
+                    <p:column headerText="Endereço" style="text-align: center;">
+                        <p:outputLabel value="#{cliente.enderecoCompleto}"
                                        style="text-transform: uppercase"/>
                     </p:column>
 
@@ -100,8 +123,8 @@
                                          oncomplete="PF('modal').show()"
                                          update="formModal"
                                          process="@this">
-                            <f:setPropertyActionListener value="#{produto}"
-                                                         target="#{beanBuscaProduto.produto}"/>
+                            <f:setPropertyActionListener value="#{cliente}"
+                                                         target="#{beanBuscaCliente.produto}"/>
                         </p:commandButton>
                         <!-- Fim código para botão Editar -->
 
@@ -109,15 +132,15 @@
                                         style="margin-left: 5px;width: 3.5px;"/>
 
                         <!-- Inicio código para botão delete -->
-                        <p:commandButton action="#{beanBuscaProduto.delete()}"
+                        <p:commandButton action="#{beanBuscaCliente.delete()}"
                                          update="dataTable :formModal:growlMessage"
                                          icon="pi pi-trash"
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"
                                          style="margin-left: 5px">
                             <p:confirm header="Confirmação" message="Deseja remover este registro?"
                                        icon="pi pi-info-circle"/>
-                            <f:setPropertyActionListener target="#{beanBuscaProduto.produto}"
-                                                         value="#{produto}"/>
+                            <f:setPropertyActionListener target="#{beanBuscaCliente.cliente}"
+                                                         value="#{cliente}"/>
                         </p:commandButton>
 
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true"
@@ -149,7 +172,7 @@
                             <p:outputLabel for="nomeModal" value="Nome:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nomeModal" value="#{beanBuscaProduto.produto.nome}"
+                            <p:inputText id="nomeModal" value="#{beanCadastroCliente.cliente.nome}"
                                          required="true"
                                          requiredMessage="Nome é obrigatório."
                                          maxlength="150"
@@ -159,25 +182,38 @@
 
                     <p:row style="text-align: center">
                         <p:column style="width: 50%">
-                            <p:outputLabel for="descricaoModal" value="Descrição:"/>
+                            <p:outputLabel for="cpfModal" value="CPF:"/>
                         </p:column>
                         <p:column>
-                            <p:inputText id="descricaoModal" value="#{beanBuscaProduto.produto.descricao}"
-                                         maxlength="150"
+                            <p:inputMask id="cpfModal" mask="999.999.999-99"
+                                         value="#{beanCadastroCliente.cliente.cpf}"
+                                         required="true"
+                                         requiredMessage="CPF é obrigatório."
                                          style="width: 70%"/>
                         </p:column>
                     </p:row>
 
                     <p:row style="text-align: center">
                         <p:column style="width: 50%">
-                            <p:outputLabel for="precoUnitarioModal" value="Preço Unitário:"/>
+                            <p:outputLabel for="rgModal" value="RG:"/>
                         </p:column>
                         <p:column>
-                            <p:inputNumber id="precoUnitarioModal" value="#{beanBuscaProduto.produto.precoUnitario}"
-                                           required="true"
-                                           requiredMessage="Preço Unitário é obrigatório."
-                                           maxlength="150"
-                                           placeholder="R$"/>
+                            <p:inputMask id="rgModal" mask="99.999.999-9"
+                                         value="#{beanCadastroCliente.cliente.rg}"
+                                         style="width: 70%"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row style="text-align: center">
+                        <p:column style="width: 50%">
+                            <p:outputLabel for="telefoneModal" value="Telefone:"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputMask id="telefoneModal" mask="(99) 9 9999-9999"
+                                         value="#{beanCadastroCliente.cliente.telefone}"
+                                         required="true"
+                                         requiredMessage="Telefone é obrigatório."
+                                         style="width: 70%"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
@@ -186,7 +222,7 @@
                     <p:panelGrid>
                         <p:commandButton value="Salvar" icon="pi pi-save"
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"
-                                         action="#{beanBuscaProduto.editar()}"
+                                         action="#{beanBuscaCliente.editar()}"
                                          process="@form" update="@form :formPrincipal:dataTable growlMessage"/>
                     </p:panelGrid>
                 </div>

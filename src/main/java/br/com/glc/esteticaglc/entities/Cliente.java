@@ -28,4 +28,26 @@ public class Cliente extends GenericDomain {
     @OneToMany(mappedBy = "cliente")
     private Set<Servico> servicos = new HashSet<>();
 
+    public String enderecoCompleto() {
+        String enderecoCompleto = null;
+
+        if (endereco.getRua() != null && !endereco.getRua().isBlank()) {
+            enderecoCompleto = endereco.getRua();
+        }
+
+        if (endereco.getBairro() != null && !endereco.getBairro().isBlank()) {
+            enderecoCompleto = enderecoCompleto + ", " + endereco.getBairro();
+        }
+
+        if (endereco.getNumero() != null && !endereco.getNumero().isBlank()) {
+            enderecoCompleto = enderecoCompleto + ", " + endereco.getNumero();
+        }
+
+        if (endereco.getCidade() != null && !endereco.getCidade().isBlank()) {
+            enderecoCompleto = enderecoCompleto + ", " + endereco.getCidade();
+        }
+
+        return enderecoCompleto;
+    }
+
 }
