@@ -1,5 +1,6 @@
 package br.com.glc.esteticaglc.services;
 
+import br.com.glc.esteticaglc.controllers.LoginController;
 import br.com.glc.esteticaglc.entities.Usuario;
 import br.com.glc.esteticaglc.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,9 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
     }
 
+    public Usuario recuperarUsuario() {
+        return usuarioRepository.buscaPorCodigo(
+                LoginController.getInstance().getUsuario().getCodigo()
+        );
+    }
 }
