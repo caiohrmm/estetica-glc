@@ -19,8 +19,6 @@ import java.util.List;
 public class ProdutoController implements Serializable {
     @Autowired
     private ProdutoService produtoService;
-    @Autowired
-    private LoginController loginController;
 
     Produto produto;
 
