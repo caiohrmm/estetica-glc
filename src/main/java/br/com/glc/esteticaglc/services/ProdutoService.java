@@ -5,6 +5,8 @@ import br.com.glc.esteticaglc.entities.Produto;
 import br.com.glc.esteticaglc.entities.Usuario;
 import br.com.glc.esteticaglc.repositories.HistoricoProdutoRepository;
 import br.com.glc.esteticaglc.repositories.ProdutoRepository;
+import br.com.glc.esteticaglc.utils.GrowlView;
+import br.com.glc.esteticaglc.utils.enums.MessageEnum;
 import org.omnifaces.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,10 +25,10 @@ public class ProdutoService {
     private UsuarioService usuarioService;
 
 
-    public void excluir(Long codigoProduto) {
-        Produto produto = produtoRepository.findById(codigoProduto).get();
-        produtoRepository.delete(produto);
-        Messages.addFlashGlobalInfo("Produto excluido com sucesso");
+    public void excluir(Produto produto) {
+        Produto produtoRecuperado = produtoRepository.findById(produto.getCodigo()).get();
+        produtoRepository.delete(produtoRecuperado);
+        GrowlView.showWarn(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_EXCLUIDO_SUCESSO.getMsg());
     }
 
     public List<Produto> listar() {
@@ -34,12 +36,12 @@ public class ProdutoService {
     }
 
 
-    public Produto inserir(Long codigoUsuario, Produto novoProduto) {
-        if (produtoRepository.findByNome(novoProduto.getNome()) == null) {
+    public void inserir(Produto novoProduto) {
+        if (produtoRepository.findByNome(novoProduto.getNome().toUpperCase()) == null) {
             novoProduto.setDataCriacao(LocalDate.now());
 
             //Buscando Usuário que registrou produto
-            Usuario usuario = usuarioService.buscaPorCodigo(codigoUsuario);
+            Usuario usuario = usuarioService.recuperarUsuario();
 
             //Criando relacionamentos bidirecional para as entidades envolvidas
             novoProduto.setUsuario(usuario);
@@ -47,17 +49,15 @@ public class ProdutoService {
 
             //Persistindo alterações no banco de dados
             usuarioService.salvar(usuario);
-            Messages.addFlashGlobalInfo("Produto registrado com sucesso");
-            return produtoRepository.save(novoProduto);
+            produtoRepository.save(novoProduto);
+            GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_SALVO_SUCESSO.getMsg());
         } else {
-            Messages.addFlashGlobalError("Produto já cadastrado com o nome " + novoProduto.getNome());
-            return null;
+            GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "Produto já cadastrado.");
         }
-
     }
 
 
-    public Produto atualizar(Long codigoProdutoAntigo, Produto produtoAtualizado) {
+    public void atualizar(Long codigoProdutoAntigo, Produto produtoAtualizado) {
         Produto produtoAntigo = produtoRepository.findById(codigoProdutoAntigo).get();
 
         //Criando Histórico para o produto
@@ -77,18 +77,16 @@ public class ProdutoService {
 
         //Persistindo alterações
         historicoProdutoRepository.save(histProduto);
-        return produtoRepository.save(produtoAntigo);
+        produtoRepository.save(produtoAntigo);
+        GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), "Estoque adicionado.");
     }
 
     //Método para realizar atualizações de dados, onde produtoAntigo ficará com os dados atualizados de ProdutoAtualizado
     private void atualizarDados(Produto produtoAntigo, Produto produtoAtualizado) {
         produtoAntigo.setQuantidadeEstoque(produtoAntigo.getQuantidadeEstoque() + produtoAtualizado.getQuantidadeEstoque());
-        produtoAntigo.setQuantidadeMinima(produtoAtualizado.getQuantidadeMinima());
         produtoAntigo.setPrecoCusto(produtoAtualizado.getPrecoCusto());
-        produtoAntigo.setDataAlteracao(produtoAtualizado.getDataAlteracao());
+        produtoAntigo.setDataAlteracao(LocalDate.now());
         produtoAntigo.setPrecoUnitario(produtoAtualizado.getPrecoUnitario());
-        produtoAntigo.setNome(produtoAtualizado.getNome());
-        produtoAntigo.setDescricao(produtoAtualizado.getDescricao());
     }
 
 }

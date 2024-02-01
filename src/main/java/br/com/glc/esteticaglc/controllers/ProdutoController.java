@@ -25,7 +25,6 @@ public class ProdutoController implements Serializable {
     Produto produto;
 
     private List<Produto> produtosList;
-    private Long codigoProdutoAntigo;
 
 
     @PostConstruct
@@ -38,16 +37,19 @@ public class ProdutoController implements Serializable {
     }
 
     public void salvar() {
-        Long codigoUsuario = loginController.getUsuarioLogado().getCodigo();
-        produtoService.inserir(codigoUsuario, produto);
+        produtoService.inserir(produto);
         produtosList = produtoService.listar();
     }
 
     public void editar() {
-        produtoService.atualizar(codigoProdutoAntigo, produto);
+        produtoService.atualizar(produto.getCodigo(), produto);
         produtosList = produtoService.listar();
     }
 
+    public void excluir() {
+        produtoService.excluir(produto);
+        produtosList = produtoService.listar();
+    }
 
 
 }
