@@ -39,6 +39,14 @@
                                          style="margin-right: .5rem">
                             <p:resetInput target=":novoProduto:novo-produto-content"/>
                         </p:commandButton>
+
+                        <i class="pi pi-ellipsis-v mr-2"/>
+
+                        <p:commandButton value="Histórico" icon="pi pi-history"
+                                         oncomplete="PF('historicoProdutoDialog').show()"
+                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                         process="@this"
+                                         style="margin-left: 8px"/>
                     </p:toolbarGroup>
                 </p:toolbar>
 
@@ -77,8 +85,13 @@
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Quantidade em Estoque" style="text-align: center">
-                        <p:outputLabel value="#{produto.quantidadeEstoque}"/>
+                    <p:column headerText="Quantidade Miníma" style="text-align: center">
+                        <p:outputLabel value="#{produto.quantidadeMinima}"/>
+                    </p:column>
+
+                    <p:column headerText="Quantidade Estoque" style="text-align: center">
+                        <p:outputLabel value="#{produto.quantidadeEstoque}"
+                                       style="color: #{produto.quantidadeEstoque lt produto.quantidadeMinima ? 'red' : 'green'}; font-weight: bold"/>
                     </p:column>
 
                     <p:column headerText="Editar/Excluir" exportable="false" style="text-align: center">
@@ -201,7 +214,7 @@
                         <p:commandButton value="Salvar" icon="pi pi-check"
                                          actionListener="#{produtoController.editar()}"
                                          update="editar-produto :form:messages :form:dt-produtos"
-                                         process="editar-produto @this"
+                                         process="editar-produto :historicoProduto:dt-historicoProdutos @this"
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
                         <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editarProdutoDialog').hide()"
                                          class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
@@ -227,8 +240,50 @@
                 </p:confirmDialog>
             </h:form>
             <!-- Fim Form Editar Produto -->
-        </div>
 
+            <!-- Inicio Form Historico Produto -->
+            <h:form id="historicoProduto">
+                <p:dialog header="Histórico de Produto" showEffect="fade" modal="true"
+                          widgetVar="historicoProdutoDialog"
+                          responsive="true" draggable="false"
+                          width="70%">
+                    <p:dataTable id="dt-historicoProdutos" widgetVar="dtHistoricoProd" var="historicoProduto"
+                                 value="#{produtoController.historicoProdutos}"
+                                 reflow="true"
+                                 rowKey="#{produto.codigo}" paginator="true" rows="5" rowSelectMode="add"
+                                 paginatorPosition="bottom">
+                        <p:column headerText="Nome Anterior" sortBy="#{historicoProduto.nome}"
+                                  filterBy="#{historicoProduto.nomeAnterior}"
+                                  style="text-align: center">
+                            <h:outputText value="#{historicoProduto.nomeAnterior}"/>
+                        </p:column>
+
+                        <p:column headerText="Data de Alteração" style="text-align: center">
+                            <h:outputText value="#{historicoProduto.dataAlteracao}">
+                                <f:convertDateTime locale="pt" pattern="dd/MM/yyyy" type="localDate"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Preço Unitário Anterior" style="text-align: center">
+                            <h:outputText value="#{historicoProduto.valorUnitarioAnterior}" style="font-weight: 700">
+                                <f:convertNumber currencySymbol="R$" type="currency"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Preço Custo Anterior" style="text-align: center">
+                            <h:outputText value="#{historicoProduto.precoDeCustoAnterior}" style="font-weight: 700">
+                                <f:convertNumber currencySymbol="R$" type="currency"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Quantidade Anterior" style="text-align: center">
+                            <p:outputLabel value="#{historicoProduto.quantidadeAnterior}"
+                                           style="color: #{historicoProduto.quantidadeAnterior lt historicoProduto.produto.quantidadeMinima ? 'red' : 'green'}; font-weight: bold"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:dialog>
+            </h:form>
+        </div>
     </h:body>
 </f:view>
 </html>
