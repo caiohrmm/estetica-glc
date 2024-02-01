@@ -33,8 +33,6 @@ public class UsuarioService {
     }
 
     public Usuario recuperarUsuario() {
-        return usuarioRepository.buscaPorCodigo(
-                LoginController.getInstance().getUsuario().getCodigo()
-        );
+        return usuarioRepository.buscaPorCodigo(1L);
     }
 }

@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_produto")
 public class Produto extends GenericDomain {
+
     private String nome;
     private String descricao;
     private Double precoUnitario;
@@ -27,7 +29,11 @@ public class Produto extends GenericDomain {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "produto")
-    private HashSet<ProdutoServico> produtoServicos;
+    private Set<ProdutoServico> produtoServicos;
+
     @OneToMany(mappedBy = "produto")
-    private HashSet<HistoricoProduto> historicoProdutos;
+    private Set<HistoricoProduto> historicoProdutos;
+
+    private Boolean ativo;
+
 }

@@ -7,7 +7,6 @@ import br.com.glc.esteticaglc.repositories.HistoricoProdutoRepository;
 import br.com.glc.esteticaglc.repositories.ProdutoRepository;
 import br.com.glc.esteticaglc.utils.GrowlView;
 import br.com.glc.esteticaglc.utils.enums.MessageEnum;
-import org.omnifaces.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +23,10 @@ public class ProdutoService {
     @Autowired
     private UsuarioService usuarioService;
 
-
     public void excluir(Produto produto) {
         Produto produtoRecuperado = produtoRepository.findById(produto.getCodigo()).get();
-        produtoRepository.delete(produtoRecuperado);
+        produtoRecuperado.setAtivo(false);
+        produtoRepository.save(produtoRecuperado);
         GrowlView.showWarn(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_EXCLUIDO_SUCESSO.getMsg());
     }
 
@@ -35,13 +34,16 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
-
     public void inserir(Produto novoProduto) {
         if (produtoRepository.findByNome(novoProduto.getNome().toUpperCase()) == null) {
             novoProduto.setDataCriacao(LocalDate.now());
 
             //Buscando Usuário que registrou produto
             Usuario usuario = usuarioService.recuperarUsuario();
+
+            //Setando estoque inicial para 0 e tornando o Produto ativo
+            novoProduto.setQuantidadeEstoque(0);
+            novoProduto.setAtivo(true);
 
             //Criando relacionamentos bidirecional para as entidades envolvidas
             novoProduto.setUsuario(usuario);
@@ -55,7 +57,6 @@ public class ProdutoService {
             GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "Produto já cadastrado.");
         }
     }
-
 
     public void atualizar(Long codigoProdutoAntigo, Produto produtoAtualizado) {
         Produto produtoAntigo = produtoRepository.findById(codigoProdutoAntigo).get();

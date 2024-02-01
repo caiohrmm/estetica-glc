@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class ProdutoController implements Serializable {
         produto.setUsuario(new Usuario());
         produto.setProdutoServicos(new HashSet<>());
 
+        produtosList = produtoService.listar();
     }
 
     public void salvar() {
