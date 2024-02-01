@@ -53,6 +53,9 @@ public class ProdutoService {
             usuarioService.salvar(usuario);
             produtoRepository.save(novoProduto);
             GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_SALVO_SUCESSO.getMsg());
+
+            //Exibir mensagem de aviso de quantidadeEstoque menor que a quantidadeMinima
+            GrowlView.showWarn(MessageEnum.MSG_AVISO.getMsg(), "Quantidade em Estoque menor que o Estoque Mínimo.");
         } else {
             GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "Produto já cadastrado.");
         }

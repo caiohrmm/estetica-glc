@@ -1,3 +1,23 @@
 h2 {
     color: #c8aa7e;
 }
+
+/* Muda a cor do componente Spinner */
+.ui-spinner .ui-spinner-button {
+    background-color: #c8aa7e;
+}
+
+/* Cor do hover do spinner */
+.ui-spinner:hover .ui-spinner-button {
+    background-color: rgba(200, 170, 126, 0.93);
+}
+
+/* Cor da borda do botão do spinner */
+.ui-spinner .ui-spinner-button {
+    border-color: #c8aa7e;
+}
+
+/* Cor da borda do botão do spinner durante o hover */
+.ui-spinner:hover .ui-spinner-button {
+    border-color: #c8aa7e;
+}

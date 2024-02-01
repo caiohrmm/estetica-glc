@@ -1,7 +1,9 @@
 package br.com.glc.esteticaglc.controllers;
 
+import br.com.glc.esteticaglc.entities.HistoricoProduto;
 import br.com.glc.esteticaglc.entities.Produto;
 import br.com.glc.esteticaglc.entities.Usuario;
+import br.com.glc.esteticaglc.services.HistoricoProdutoService;
 import br.com.glc.esteticaglc.services.ProdutoService;
 import jakarta.annotation.PostConstruct;
 import lombok.Data;
@@ -25,6 +27,10 @@ public class ProdutoController implements Serializable {
 
     private List<Produto> produtosList;
 
+    @Autowired
+    private HistoricoProdutoService historicoProdutoService;
+    private List<HistoricoProduto> historicoProdutos;
+
 
     @PostConstruct
     public void init() {
@@ -34,6 +40,7 @@ public class ProdutoController implements Serializable {
         produto.setProdutoServicos(new HashSet<>());
 
         produtosList = produtoService.listar();
+        historicoProdutos = historicoProdutoService.listar();
     }
 
     public void salvar() {
@@ -44,6 +51,7 @@ public class ProdutoController implements Serializable {
     public void editar() {
         produtoService.atualizar(produto.getCodigo(), produto);
         produtosList = produtoService.listar();
+        historicoProdutos = historicoProdutoService.listar();
     }
 
     public void excluir() {
