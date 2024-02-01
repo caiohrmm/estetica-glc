@@ -7,6 +7,7 @@ public enum MessageEnum {
 
     MSG_SUCESSO("Sucesso."),
     MSG_SALVO_SUCESSO("Registro salvo com sucesso."),
+    MSG_AVISO("Aviso."),
     MSG_ERRO("Erro."),
     MSG_ERRO_SALVAR("Ocorreu um erro ao salvar."),
     MSG_IMPORT_SUCESSO("Importado com sucesso."),
