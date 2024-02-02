@@ -63,7 +63,8 @@
 
                     <p:column headerText="Nome" sortBy="#{cliente.nome}" filterBy="#{cliente.nome}"
                               style="text-align: center">
-                        <h:outputText value="#{cliente.nome}"/>
+                        <h:outputText value="#{cliente.nome}"
+                                      style="text-transform: uppercase"/>
                     </p:column>
 
                     <p:column headerText="CPF" style="text-align: center">
@@ -79,7 +80,8 @@
                     </p:column>
 
                     <p:column headerText="Endereço" style="text-align: center">
-                        <p:outputLabel value="#{cliente.enderecoCompleto()}"/>
+                        <p:outputLabel value="#{cliente.enderecoCompleto()}"
+                                       style="text-transform: uppercase"/>
                     </p:column>
 
                     <p:column headerText="Editar/Excluir" exportable="false" style="text-align: center">
