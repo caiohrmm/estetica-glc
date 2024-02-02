@@ -2,6 +2,15 @@ h2 {
     color: #c8aa7e;
 }
 
+h3 {
+    color: #c8aa7e;
+}
+
+/* Centraliza os Botoes dos Modais - dialog */
+.modal-footer {
+    text-align: center;
+}
+
 /* Muda a cor do componente Spinner */
 .ui-spinner .ui-spinner-button {
     background-color: #c8aa7e;
