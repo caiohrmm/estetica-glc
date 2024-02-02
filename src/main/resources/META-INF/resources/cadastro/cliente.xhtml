@@ -191,13 +191,15 @@
                             <div class="field" style="margin-top: 10px">
                                 <p:outputLabel for="nomeSelecionado">Nome:</p:outputLabel>
                                 <p:inputText id="nomeSelecionado" value="#{clienteController.cliente.nome}"
-                                             required="true"/>
+                                             required="true"
+                                             requiredMessage="Nome é obrigatório."/>
                             </div>
                             <div class="field" style="margin-top: 10px">
                                 <p:outputLabel for="cpfSelecionado">CPF:</p:outputLabel>
                                 <p:inputMask id="cpfSelecionado" mask="999.999.999-99"
                                              value="#{clienteController.cliente.cpf}"
-                                             required="true"/>
+                                             required="true"
+                                             requiredMessage="CPF é obrigatório."/>
                             </div>
                             <div class="field" style="margin-top: 10px">
                                 <p:outputLabel for="rgSelecionado">RG:</p:outputLabel>
@@ -209,7 +211,8 @@
                                 <p:outputLabel for="telefoneSelecionado">Telefone:</p:outputLabel>
                                 <p:inputMask id="telefoneSelecionado" mask="(99) 9 9999-9999"
                                              value="#{clienteController.cliente.telefone}"
-                                             required="true"/>
+                                             required="true"
+                                             requiredMessage="Telefone é obrigatório."/>
                             </div>
 
                             <h3>Endereço</h3>
