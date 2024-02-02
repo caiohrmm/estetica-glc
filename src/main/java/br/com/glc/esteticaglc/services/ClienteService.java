@@ -20,6 +20,19 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
+    public Cliente buscarPorCodigo(Long codigo) {
+        return clienteRepository.findById(codigo).get();
+    }
+
+    public List<Cliente> buscarPorNome(String nome) {
+        List<Cliente> clientesEncontrados = clienteRepository.findByNome(nome);
+
+        if (clientesEncontrados.isEmpty()) {
+            GrowlView.showWarn(MessageEnum.MSG_AVISO.getMsg(), "Cliente não encontrado");
+        }
+        return clientesEncontrados;
+    }
+
     public void salvar(Cliente cliente) {
         validaCliente(cliente);
     }
@@ -36,7 +49,7 @@ public class ClienteService {
     }
 
     public void validaCliente(Cliente cliente) {
-        if (clienteRepository.clienteExistente(cliente.getCpf()) != null && !Objects.equals(cliente.getCodigo(), clienteRepository.clienteExistente(cliente.getCpf()).getCodigo())){
+        if (clienteRepository.clienteExistente(cliente.getCpf()) != null && !Objects.equals(cliente.getCodigo(), clienteRepository.clienteExistente(cliente.getCpf()).getCodigo())) {
             GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "CPF já cadastrado.");
             // clienteRepository.saveAndFlush(cliente);
         } else {
