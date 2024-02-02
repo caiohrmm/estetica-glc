@@ -141,14 +141,18 @@
                                     <p:inputNumber id="precoUnitario"
                                                    value="#{produtoController.produto.precoUnitario}"
                                                    symbol=" R$"
-                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."
+                                                   required="true"
+                                                   requiredMessage="Preço Unitário é obrigatório."/>
                                 </div>
 
                                 <div class="field col">
                                     <p:outputLabel for="quantidadeMinima">Quantidade Mínima:</p:outputLabel>
                                     <p:spinner id="quantidadeMinima" min="0"
                                                value="#{produtoController.produto.quantidadeMinima}"
-                                               size="10"/>
+                                               size="10"
+                                               required="true"
+                                               requiredMessage="Quantidade Miníma é obrigatório."/>
                                 </div>
                             </div>
 
@@ -158,7 +162,9 @@
                                     <p:inputNumber id="precoCusto"
                                                    value="#{produtoController.produto.precoCusto}"
                                                    symbol=" R$"
-                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."
+                                                   required="true"
+                                                   requiredMessage="Preço Custo é obrigatório."/>
                                 </div>
                             </div>
                         </p:outputPanel>
@@ -187,7 +193,9 @@
                                 <p:outputLabel for="quantidadeEstoqueSelecionado">Quantidade Estoque:</p:outputLabel>
                                 <p:spinner id="quantidadeEstoqueSelecionado" min="0"
                                            value="#{produtoController.produto.quantidadeEstoque}"
-                                           size="10"/>
+                                           size="10"
+                                           required="true"
+                                           requiredMessage="Quantidade Estoque é obrigatório."/>
                             </div>
 
                             <div class="formgrid grid" style="margin-top: 10px">
@@ -196,14 +204,18 @@
                                     <p:inputNumber id="precoUnitarioSelecionado"
                                                    value="#{produtoController.produto.precoUnitario}"
                                                    symbol=" R$"
-                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."
+                                                   required="true"
+                                                   requiredMessage="Preço Unitário é obrigatório."/>
 
                                     <div class="field col">
                                         <p:outputLabel for="precoCustoSelecionado">Preço Custo:</p:outputLabel>
                                         <p:inputNumber id="precoCustoSelecionado"
                                                        value="#{produtoController.produto.precoCusto}"
                                                        symbol=" R$"
-                                                       symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                                                       symbolPosition="s" decimalSeparator="," thousandSeparator="."
+                                                       required="true"
+                                                       requiredMessage="Preço Custo é obrigatório."/>
                                     </div>
                                 </div>
                             </div>
