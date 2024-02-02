@@ -171,13 +171,15 @@
                     </p:outputPanel>
 
                     <f:facet name="footer">
-                        <p:commandButton value="Salvar" icon="pi pi-check"
-                                         actionListener="#{produtoController.salvar()}"
-                                         update="novo-produto-content :form:messages :form:dt-produtos"
-                                         process="novo-produto-content @this"
-                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('novo-produto').hide()"
-                                         class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                        <div class="modal-footer">
+                            <p:commandButton value="Salvar" icon="pi pi-check"
+                                             actionListener="#{produtoController.salvar()}"
+                                             update="novo-produto-content :form:messages :form:dt-produtos"
+                                             process="novo-produto-content @this"
+                                             styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('novo-produto').hide()"
+                                             class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                        </div>
                     </f:facet>
                 </p:dialog>
             </h:form>
@@ -208,7 +210,7 @@
                                                    required="true"
                                                    requiredMessage="Preço Unitário é obrigatório."/>
 
-                                    <div class="field col">
+                                    <div class="field col" style="margin-top: 10px">
                                         <p:outputLabel for="precoCustoSelecionado">Preço Custo:</p:outputLabel>
                                         <p:inputNumber id="precoCustoSelecionado"
                                                        value="#{produtoController.produto.precoCusto}"
@@ -223,13 +225,16 @@
                     </p:outputPanel>
 
                     <f:facet name="footer">
-                        <p:commandButton value="Salvar" icon="pi pi-check"
-                                         actionListener="#{produtoController.editar()}"
-                                         update="editar-produto :form:messages :form:dt-produtos"
-                                         process="editar-produto :historicoProduto:dt-historicoProdutos @this"
-                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editarProdutoDialog').hide()"
-                                         class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                        <div class="modal-footer">
+                            <p:commandButton value="Salvar" icon="pi pi-check"
+                                             actionListener="#{produtoController.editar()}"
+                                             update="editar-produto :form:messages :form:dt-produtos"
+                                             process="editar-produto :historicoProduto:dt-historicoProdutos @this"
+                                             styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+                            <p:commandButton value="Cancelar" icon="pi pi-times"
+                                             onclick="PF('editarProdutoDialog').hide()"
+                                             class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                        </div>
                     </f:facet>
                 </p:dialog>
 
@@ -241,12 +246,14 @@
                                      styleClass="ui-button-raised ui-button-secondary ui-button-flat"
                                      oncomplete="PF('deleteProduto').hide()"/>
                     <p:commandButton value="Não" type="button"
-                                     styleClass="ui-button-raised ui-button-secondary ui-button-flat" icon="pi pi-times"
+                                     styleClass="ui-button-raised ui-button-secondary ui-button-flat"
+                                     icon="pi pi-times"
                                      onclick="PF('deleteProduto').hide()"/>
                 </p:confirmDialog>
 
                 <p:confirmDialog global="true" showEffect="fade" width="300">
-                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="pi pi-check"/>
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
                                      icon="pi pi-times"/>
                 </p:confirmDialog>

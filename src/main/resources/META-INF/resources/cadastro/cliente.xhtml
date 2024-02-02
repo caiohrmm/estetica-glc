@@ -109,8 +109,8 @@
 
             <!-- Inicio Form Novo Cliente -->
             <h:form id="novoCliente">
-                <p:dialog header="Detalhes Cliente" showEffect="fade" modal="true" widgetVar="novo-cliente"
-                          responsive="true" draggable="false">
+                <p:dialog header="Novo Cliente" showEffect="fade" modal="true" widgetVar="novo-cliente"
+                          responsive="true" draggable="false" height="60vh">
                     <p:outputPanel id="novo-cliente-content" class="ui-fluid">
                         <p:outputPanel rendered="#{not empty clienteController.cliente}">
                             <div class="field" style="margin-top: 10px">
@@ -142,7 +142,7 @@
                             <h3>Endereço</h3>
                             <div class="formgrid grid">
                                 <div class="field col">
-                                    <p:outputLabel for="rua">Rua</p:outputLabel>
+                                    <p:outputLabel for="rua">Rua:</p:outputLabel>
                                     <p:inputText id="rua" value="#{clienteController.cliente.endereco.rua}"
                                                  maxlength="100"/>
                                 </div>
@@ -172,13 +172,15 @@
                     </p:outputPanel>
 
                     <f:facet name="footer">
-                        <p:commandButton value="Salvar" icon="pi pi-check"
-                                         actionListener="#{clienteController.salvar()}"
-                                         update="novo-cliente-content :form:messages :form:dt-clientes"
-                                         process="novo-cliente-content @this"
-                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('novo-cliente').hide()"
-                                         class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                        <div class="modal-footer">
+                            <p:commandButton value="Salvar" icon="pi pi-check"
+                                             actionListener="#{clienteController.salvar()}"
+                                             update="novo-cliente-content :form:messages :form:dt-clientes"
+                                             process="novo-cliente-content @this"
+                                             styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('novo-cliente').hide()"
+                                             class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                        </div>
                     </f:facet>
                 </p:dialog>
             </h:form>
@@ -187,7 +189,7 @@
             <!-- Inicio Form Editar Cliente -->
             <h:form id="editarCliente">
                 <p:dialog header="Editar Cliente" showEffect="fade" modal="true" widgetVar="editarClienteDialog"
-                          responsive="true" draggable="false">
+                          responsive="true" draggable="false" height="60vh">
                     <p:outputPanel id="editar-cliente" class="ui-fluid">
                         <p:outputPanel rendered="#{not empty clienteController.cliente}">
                             <div class="field" style="margin-top: 10px">
@@ -220,7 +222,7 @@
                             <h3>Endereço</h3>
                             <div class="formgrid grid">
                                 <div class="field col">
-                                    <p:outputLabel for="ruaSelecionada">Rua</p:outputLabel>
+                                    <p:outputLabel for="ruaSelecionada">Rua:</p:outputLabel>
                                     <p:inputText id="ruaSelecionada" value="#{clienteController.cliente.endereco.rua}"
                                                  maxlength="100"/>
                                 </div>
@@ -250,13 +252,16 @@
                     </p:outputPanel>
 
                     <f:facet name="footer">
-                        <p:commandButton value="Salvar" icon="pi pi-check"
-                                         actionListener="#{clienteController.editar()}"
-                                         update="editar-cliente :form:messages :form:dt-clientes"
-                                         process="editar-cliente @this"
-                                         styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('editarClienteDialog').hide()"
-                                         class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                        <div class="modal-footer">
+                            <p:commandButton value="Salvar" icon="pi pi-check"
+                                             actionListener="#{clienteController.editar()}"
+                                             update="editar-cliente :form:messages :form:dt-clientes"
+                                             process="editar-cliente @this"
+                                             styleClass="ui-button-raised ui-button-secondary ui-button-flat"/>
+                            <p:commandButton value="Cancelar" icon="pi pi-times"
+                                             onclick="PF('editarClienteDialog').hide()"
+                                             class="ui-button-raised ui-button-secondary ui-button-flat" type="button"/>
+                        </div>
                     </f:facet>
                 </p:dialog>
 
