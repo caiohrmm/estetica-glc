@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ClienteService {
@@ -20,26 +21,27 @@ public class ClienteService {
     }
 
     public void salvar(Cliente cliente) {
-        if (clienteRepository.clienteExistente(cliente.getCpf()) != null) {
-            GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "CPF já cadastrado.");
-            clienteRepository.saveAndFlush(cliente);
-        } else {
-            clienteRepository.save(cliente);
-            GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_SALVO_SUCESSO.getMsg());
-        }
+        validaCliente(cliente);
     }
 
     public void editar(Cliente cliente) {
-        clienteRepository.saveAndFlush(cliente);
-
-        GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_SALVO_SUCESSO.getMsg());
+        validaCliente(cliente);
     }
 
     public void delete(Cliente cliente) {
         Cliente clienteRecuperado = clienteRepository.findById(cliente.getCodigo()).get();
 
         clienteRepository.delete(clienteRecuperado);
-        GrowlView.showWarn(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_EXCLUIDO_SUCESSO.getMsg());
+        GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_EXCLUIDO_SUCESSO.getMsg());
     }
 
+    public void validaCliente(Cliente cliente) {
+        if (clienteRepository.clienteExistente(cliente.getCpf()) != null && !Objects.equals(cliente.getCodigo(), clienteRepository.clienteExistente(cliente.getCpf()).getCodigo())){
+            GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "CPF já cadastrado.");
+            // clienteRepository.saveAndFlush(cliente);
+        } else {
+            clienteRepository.saveAndFlush(cliente);
+            GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_SALVO_SUCESSO.getMsg());
+        }
+    }
 }
