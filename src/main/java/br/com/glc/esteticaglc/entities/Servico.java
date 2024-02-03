@@ -17,6 +17,12 @@ import java.util.Set;
 public class Servico extends GenericDomain {
 
     private String descricao;
+
+    @Transient
+    private Double valorTotalProdutos;
+
+    @Transient
+    private Double valorParcial;
     private Double valorTotal;
     private StatusPagamento statusPagamento;
     private LocalDateTime data;
@@ -32,6 +38,5 @@ public class Servico extends GenericDomain {
 
     @OneToMany(mappedBy = "servico")
     private Set<ProdutoServico> produtoServicos = new HashSet<>();
-
 
 }
