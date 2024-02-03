@@ -46,13 +46,26 @@ public class ServicoController implements Serializable {
         produtoServicoList = new ArrayList<>();
     }
 
+    public void salvar() {
+        servicoService.inserir(servico);
+    }
+
     public void adicionarProdutoUtilizado() {
         produtoServicoList.add(produtoServico);
         produtoServico = new ProdutoServico();
+        calcularValorTotalProdutos();
     }
 
     public List<Cliente> buscarCliente(String nome) {
         return clienteService.buscarPorNome(nome);
+    }
+
+    public void calcularValorTotalProdutos() {
+        servico.setValorTotalProdutos(servicoService.calcularValorTotalProdutos(produtoServicoList));
+    }
+
+    public void calcularValorTotal() {
+        servico.setValorTotal(servicoService.calcularValorTotal(servico));
     }
 
 }
