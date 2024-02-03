@@ -1,0 +1,29 @@
+/* Estilizando o botão Avançar */
+.ui-wizard .ui-wizard-nav-next {
+    margin-top: 5px;
+    background-color: white !important; /* Cor de fundo branco */
+    color: #667c89 !important; /* Cor do texto cinza */
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.31);
+}
+
+.ui-wizard .ui-wizard-nav-next:hover,
+.ui-wizard .ui-wizard-nav-next:focus {
+    background-color: #f9fafa !important; /* Nova cor de fundo verde para o hover/focus */
+    color: #667c89 !important; /* Nova cor do texto branca para o hover/focus */
+}
+
+/* Estilizando o botão Voltar */
+.ui-wizard .ui-wizard-nav-back {
+    margin-top: 5px;
+    background-color: white !important; /* Cor de fundo branco */
+    color: #667c89 !important; /* Cor do texto cinza */
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.31);
+}
+
+.ui-wizard .ui-wizard-nav-back:hover,
+.ui-wizard .ui-wizard-nav-back:focus {
+    background-color: #f9fafa !important; /* Nova cor de fundo vermelha para o hover/focus */
+    color: #667c89 !important; /* Nova cor do texto branca para o hover/focus */
+}
