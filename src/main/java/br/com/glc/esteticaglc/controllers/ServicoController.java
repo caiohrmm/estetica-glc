@@ -9,6 +9,7 @@ import br.com.glc.esteticaglc.services.ServicoService;
 import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import org.omnifaces.cdi.ViewScoped;
+import org.primefaces.event.FlowEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,8 @@ public class ServicoController implements Serializable {
     @Autowired
     private ClienteService clienteService;
 
+    private boolean skip;
+
     @PostConstruct
     public void init() {
         servico = new Servico();
@@ -51,9 +54,16 @@ public class ServicoController implements Serializable {
     }
 
     public void adicionarProdutoUtilizado() {
-        produtoServicoList.add(produtoServico);
+        produtoServicoList = servicoService.adicionarProdutoUtilizado(produtoServico, produtoServicoList);
         produtoServico = new ProdutoServico();
+
+        servico.setValorParcial(null);
+        servico.setValorTotal(null);
         calcularValorTotalProdutos();
+    }
+
+    public void removerProdutoUtilizado(ProdutoServico produtoServico) {
+        produtoServicoList = servicoService.removerProdutoUtilizado(produtoServico, produtoServicoList);
     }
 
     public List<Cliente> buscarCliente(String nome) {
@@ -66,6 +76,15 @@ public class ServicoController implements Serializable {
 
     public void calcularValorTotal() {
         servico.setValorTotal(servicoService.calcularValorTotal(servico));
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        if (skip) {
+            skip = false; //reset in case user goes back
+            return "confirm";
+        } else {
+            return event.getNewStep();
+        }
     }
 
 }
