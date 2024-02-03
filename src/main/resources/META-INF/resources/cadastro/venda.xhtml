@@ -133,7 +133,7 @@
 
                                         <p:commandButton value="Adicionar Produto"
                                                          action="#{servicoController.adicionarProdutoUtilizado()}"
-                                                         update=":form:messages tabelaProdutos menuProdutos inputQuantidade"
+                                                         update=":form:messages tabelaProdutos menuProdutos inputQuantidade novoServico:valorParcial novoServico:valorTotal"
                                                          process="@form"
                                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"
                                                          style="margin-top: 5px"/>
@@ -161,10 +161,13 @@
                             <div class="field" style="margin-top: 10px">
                                 <p:outputLabel for="valorParcial">Valor Parcial:</p:outputLabel>
                                 <p:inputNumber id="valorParcial"
-                                               value="#{servicoController.produtoServico.precoProduto}"
+                                               value="#{servicoController.servico.valorParcial}"
                                                symbol=" R$"
                                                symbolPosition="s" decimalSeparator="," thousandSeparator="."
-                                               size="10"/>
+                                               size="10">
+                                    <p:ajax event="change" listener="#{servicoController.calcularValorTotal()}"
+                                            update="valorTotal"/>
+                                </p:inputNumber>
                             </div>
 
                             <div class="field" style="margin-top: 10px">
