@@ -62,7 +62,10 @@
                              value="#{produtoController.produtosList}"
                              reflow="true"
                              rowKey="#{produto.codigo}" paginator="true" rows="5" rowSelectMode="add"
-                             paginatorPosition="bottom">
+                             paginatorPosition="bottom"
+                             emptyMessage="Nenhum produto encontrado."
+                             styleClass="empty-table-message"
+                >
                     <f:facet name="header">
                         <div class="produtos-table-header">
                             <span style="font-weight: bold">PRODUTOS</span>

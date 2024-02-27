@@ -37,3 +37,9 @@ h3 {
     justify-content: space-between;
     align-items: center;
 }
+
+.empty-table-message {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 25px;
+}

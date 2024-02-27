@@ -53,7 +53,8 @@
                              value="#{clienteController.clienteList}"
                              reflow="true"
                              rowKey="#{cliente.codigo}" paginator="true" rows="5" rowSelectMode="add"
-                             paginatorPosition="bottom">
+                             paginatorPosition="bottom"
+                             emptyMessage="Nenhum cliente encontrado." styleClass="empty-table-message">
                     <f:facet name="header">
                         <div class="clientes-table-header">
                             <span style="font-weight: bold">CLIENTES</span>

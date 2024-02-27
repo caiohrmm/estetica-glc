@@ -59,7 +59,7 @@ public class ProdutoService {
 
             //Criando relacionamentos bidirecional para as entidades envolvidas
             novoProduto.setUsuario(usuario);
-            usuario.getProdutos().add(novoProduto);
+            //usuario.getProdutos().add(novoProduto);
 
             //Persistindo alterações no banco de dados
             usuarioService.salvar(usuario);

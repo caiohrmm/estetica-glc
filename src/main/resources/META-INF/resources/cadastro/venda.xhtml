@@ -49,10 +49,11 @@
                              value="#{servicoController.servicoList}"
                              reflow="true"
                              rowKey="#{servico.codigo}" paginator="true" rows="5" rowSelectMode="add"
-                             paginatorPosition="bottom">
+                             paginatorPosition="bottom"
+                             emptyMessage="Nenhuma venda encontrada." styleClass="empty-table-message">
                     <f:facet name="header">
                         <div class="clientes-table-header">
-                            <span style="font-weight: bold">CLIENTES</span>
+                            <span style="font-weight: bold">VENDAS</span>
                             <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
                             <p:inputText id="globalFilter" onkeyup="PF('dtServicos').filter()" placeholder="Buscar"/>
                         </span>
