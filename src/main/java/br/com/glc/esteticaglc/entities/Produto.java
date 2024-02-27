@@ -36,4 +36,9 @@ public class Produto extends GenericDomain {
 
     private Boolean ativo;
 
+    public String verificaDisponibilidade(Boolean ativo) {
+        if (ativo) return "SIM";
+        return "Indisponível";
+    }
+
 }

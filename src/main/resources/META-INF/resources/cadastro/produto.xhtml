@@ -47,6 +47,14 @@
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat"
                                          process="@this"
                                          style="margin-left: 8px"/>
+
+                        <i class="pi pi-ellipsis-v mr-2"/>
+
+                        <p:commandButton value="Exportar para Excel" icon="pi pi-file-excel"
+                                         styleClass="ui-button-raised ui-button-flat"
+                                         style="margin-left: 8px; background-color: green; color: white;"
+                                         ajax="false"
+                                         actionListener="#{produtoController.exportarParaExcel()}"/>
                     </p:toolbarGroup>
                 </p:toolbar>
 

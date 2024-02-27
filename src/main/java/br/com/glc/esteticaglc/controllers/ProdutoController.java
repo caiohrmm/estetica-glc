@@ -59,5 +59,9 @@ public class ProdutoController implements Serializable {
         produtosList = produtoService.listar();
     }
 
+    public void exportarParaExcel() {
+        produtoService.exportarParaExcel();
+    }
+
 
 }

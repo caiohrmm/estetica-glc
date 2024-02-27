@@ -80,7 +80,7 @@ public class ClienteService {
 
             try {
                 // Gera o arquivo Excel
-                ByteArrayOutputStream outputStream = excelExporter.exportToExcel(clienteRepository.findAll());
+                ByteArrayOutputStream outputStream = excelExporter.exportarClienteParaExcel(clienteRepository.findAll());
 
                 // Configura os headers para download
                 response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

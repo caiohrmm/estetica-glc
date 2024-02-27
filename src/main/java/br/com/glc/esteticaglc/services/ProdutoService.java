@@ -5,11 +5,18 @@ import br.com.glc.esteticaglc.entities.Produto;
 import br.com.glc.esteticaglc.entities.Usuario;
 import br.com.glc.esteticaglc.repositories.HistoricoProdutoRepository;
 import br.com.glc.esteticaglc.repositories.ProdutoRepository;
+import br.com.glc.esteticaglc.utils.ExcelExporter;
 import br.com.glc.esteticaglc.utils.GrowlView;
 import br.com.glc.esteticaglc.utils.enums.MessageEnum;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,10 +25,15 @@ public class ProdutoService {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+
     @Autowired
     private HistoricoProdutoRepository historicoProdutoRepository;
+
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private ExcelExporter excelExporter;
 
     public void excluir(Produto produto) {
         Produto produtoRecuperado = produtoRepository.findById(produto.getCodigo()).get();
@@ -93,4 +105,34 @@ public class ProdutoService {
         produtoAntigo.setPrecoUnitario(produtoAtualizado.getPrecoUnitario());
     }
 
+    public void exportarParaExcel() {
+        if (produtoRepository.findAll().isEmpty()) {
+            GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "Não existem dados de produtos para exportar no momento!");
+        } else {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+
+            try {
+                // Gera o arquivo Excel
+                ByteArrayOutputStream outputStream = excelExporter.exportarProdutoParaExcel(produtoRepository.findAll());
+
+                // Configura os headers para download
+                response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                response.setHeader("Content-Disposition", "attachment; filename=\"relatorio_produtos.xls\"");
+                response.setContentLength(outputStream.size());
+
+                // Escreve o conteúdo do arquivo no HttpServletResponse
+                OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+                outputStream.writeTo(responseOutputStream); // Escreve o conteúdo do outputStream no responseOutputStream
+                responseOutputStream.flush();
+                facesContext.responseComplete();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Lidar com erros de exportação, se necessário
+                GrowlView.showError(MessageEnum.MSG_ERRO.getMsg(), "Erro ao exportar arquivo.");
+            }
+        }
+
+    }
 }
