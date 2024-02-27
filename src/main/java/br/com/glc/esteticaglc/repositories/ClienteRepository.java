@@ -14,4 +14,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("SELECT c FROM Cliente c WHERE c.cpf = ?1")
     Cliente clienteExistente(String cpf);
 
+
 }

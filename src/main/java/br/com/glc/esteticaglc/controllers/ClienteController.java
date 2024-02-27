@@ -48,4 +48,8 @@ public class ClienteController implements Serializable {
         clienteList = service.listar();
     }
 
+    public void exportarParaExcel() {
+        service.exportarParaExcel();
+    }
+
 }

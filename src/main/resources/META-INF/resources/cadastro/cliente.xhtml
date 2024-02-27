@@ -40,7 +40,13 @@
                                          style="margin-right: .5rem">
                             <p:resetInput target=":novoCliente:novo-cliente-content"/>
                         </p:commandButton>
+                        <p:commandButton value="Exportar para Excel" icon="pi pi-file-excel"
+                                         styleClass="ui-button-raised ui-button-flat"
+                                         style="margin-right: .5rem; background-color: green; color: white;"
+                                         ajax="false"
+                                         actionListener="#{clienteController.exportarParaExcel()}"/>
                     </p:toolbarGroup>
+
                 </p:toolbar>
 
                 <p:dataTable id="dt-clientes" widgetVar="dtClientes" var="cliente"

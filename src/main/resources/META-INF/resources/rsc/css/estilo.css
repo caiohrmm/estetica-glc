@@ -30,3 +30,10 @@ h3 {
 .ui-spinner:hover .ui-spinner-button {
     border-color: #c8aa7e;
 }
+
+.clientes-table-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
