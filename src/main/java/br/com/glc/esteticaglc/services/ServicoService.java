@@ -30,7 +30,6 @@ public class ServicoService {
 
     public void inserir(Servico servico) {
         servicoRepository.save(servico);
-
         GrowlView.showInfo(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_SALVO_SUCESSO.getMsg());
     }
 
@@ -60,7 +59,6 @@ public class ServicoService {
         for (ProdutoServico produtoSelecionado : produtoServicoList) {
             valorTotalProdutos += (produtoSelecionado.getProduto().getPrecoUnitario() * produtoSelecionado.getQuantidade());
         }
-
         return valorTotalProdutos;
     }
 
