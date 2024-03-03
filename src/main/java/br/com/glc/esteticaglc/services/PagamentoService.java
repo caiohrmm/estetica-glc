@@ -78,7 +78,11 @@ public class PagamentoService {
             }
         }
     }
-    
+
+    public List<Pagamento> listar() {
+        return pagamentoRepository.findAll();
+    }
+
     public void atualizarDados(Pagamento pagamentoAntigo, Pagamento pagamentoAtualizado) {
         pagamentoAntigo.setValorPago(pagamentoAtualizado.getValorPago());
     }
