@@ -36,9 +36,8 @@ public class ProdutoService {
     private ExcelExporter excelExporter;
 
     public void excluir(Produto produto) {
-        Produto produtoRecuperado = produtoRepository.findById(produto.getCodigo()).get();
-        produtoRecuperado.setAtivo(false);
-        produtoRepository.save(produtoRecuperado);
+        produto.setAtivo(false);
+        produtoRepository.save(produto);
         GrowlView.showWarn(MessageEnum.MSG_SUCESSO.getMsg(), MessageEnum.MSG_EXCLUIDO_SUCESSO.getMsg());
     }
 
